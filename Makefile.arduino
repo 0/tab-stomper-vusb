@@ -1,0 +1,29 @@
+DEVICE = atmega328p
+F_CPU = 16000000
+
+AVRDUDE = avrdude -c arduino -P /dev/ttyACM0 -p $(DEVICE)
+
+CC = avr-gcc
+CFLAGS = -mmcu=$(DEVICE) -DF_CPU=$(F_CPU) -Iusbdrv -I. -Wall -Wextra -Os
+ASFLAGS = $(CFLAGS)
+LDFLAGS = -mmcu=$(DEVICE)
+
+OBJECTS = main.o usbdrv/usbdrv.o usbdrv/usbdrvasm.o
+
+
+.PHONY: all flash clean
+
+all: main.hex
+
+flash: all
+	$(AVRDUDE) -U flash:w:main.hex:i
+
+clean:
+	$(RM) main.hex main.bin main.o usbdrv/*.o
+
+
+main.bin: $(OBJECTS)
+	$(CC) $(LDFLAGS) -o main.bin $(OBJECTS)
+
+main.hex: main.bin
+	avr-objcopy -j .text -j .data -O ihex main.bin main.hex

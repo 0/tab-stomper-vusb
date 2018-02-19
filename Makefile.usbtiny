@@ -1,0 +1,37 @@
+DEVICE = atmega328p
+F_CPU = 16000000
+
+AVRDUDE = avrdude -c usbtiny -p $(DEVICE)
+
+CC = avr-gcc
+CFLAGS = -mmcu=$(DEVICE) -DF_CPU=$(F_CPU) -Iusbdrv -I. -Wall -Wextra -Os
+ASFLAGS = $(CFLAGS)
+LDFLAGS = -mmcu=$(DEVICE)
+
+OBJECTS = main.o usbdrv/usbdrv.o usbdrv/usbdrvasm.o
+
+
+.PHONY: all flash fuse clean
+
+all: main.hex
+
+flash: all
+	$(AVRDUDE) -U flash:w:main.hex:i
+
+# Default fuses, except:
+#   * the clock source is an external full-swing oscillator, and
+#   * the clock is not divided by 8.
+fuse:
+	$(AVRDUDE) -U efuse:w:0xff:m
+	$(AVRDUDE) -U hfuse:w:0xd9:m
+	$(AVRDUDE) -U lfuse:w:0xe7:m
+
+clean:
+	$(RM) main.hex main.bin main.o usbdrv/*.o
+
+
+main.bin: $(OBJECTS)
+	$(CC) $(LDFLAGS) -o main.bin $(OBJECTS)
+
+main.hex: main.bin
+	avr-objcopy -j .text -j .data -O ihex main.bin main.hex

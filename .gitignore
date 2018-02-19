@@ -1,0 +1,6 @@
+/Makefile
+
+/main.*
+!/main.c
+
+/usbdrv/*.o
