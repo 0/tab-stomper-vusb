@@ -45,6 +45,8 @@ On an Arduino Uno, you'll need to make the following connections by default:
 
 The device will be powered through the USB connection, so you shouldn't have the built-in Arduino USB or barrel connectors plugged in.
 
+For an example, see [the Arduino prototype](https://d.i10o.ca/projects/tab-stomper/prototype-vusb-arduino/).
+
 
 ### Standalone
 
@@ -57,6 +59,8 @@ You'll also need the following connections by default:
 * `PD5`: button
 * `VCC`: USB `VBUS`
 * `GND`: USB `GND`, button
+
+For an example, see [the breadboard prototype](https://d.i10o.ca/projects/tab-stomper/prototype-vusb-breadboard/)
 
 
 ## Usage
