@@ -115,7 +115,7 @@ int main(void) {
     usbDeviceConnect();
 
     // 1/1024
-    TCCR0B = CS02 | CS00;
+    TCCR0B = _BV(CS02) | _BV(CS00);
 
     // Enable USB and interrupts.
     usbInit();
