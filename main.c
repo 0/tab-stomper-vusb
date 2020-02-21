@@ -12,8 +12,8 @@
  *   1 / (16 MHz / 1024 / 256) =~ 16.384 ms.
  */
 
-// More than 163 ms, which should be plenty.
-#define DEBOUNCE_WAIT_TOTAL 10
+// More than 819 ms, which should be plenty.
+#define DEBOUNCE_WAIT_TOTAL 50
 // USB uses units of 4 ms for the idle rate, but our timer is slower than that
 // by a factor of about ceil(16.384 ms / 4 ms) = 5.
 #define IDLE_RATE_STEP 5
